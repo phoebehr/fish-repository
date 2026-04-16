@@ -1,12 +1,12 @@
 {
-  "name": "my-nodered-render",
+  "name": "fish-repository",
   "version": "1.0.0",
   "scripts": {
     "start": "node-red --userDir . --port $PORT"
   },
   "dependencies": {
-    "node-red": "latest"
-    "node-red-dashboard": "latest"
+    "node-red": "latest",
+    "node-red-dashboard": "latest",
     "node-red-contrib-firebase-realtime": "latest"
   }
 }
