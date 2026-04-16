@@ -6,5 +6,6 @@
   },
   "dependencies": {
     "node-red": "latest"
+    "node-red-dashboard": "latest"
   }
 }
