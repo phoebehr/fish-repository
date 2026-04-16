@@ -1,0 +1,10 @@
+{
+  "name": "my-nodered-render",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node-red --userDir . --port $PORT"
+  },
+  "dependencies": {
+    "node-red": "latest"
+  }
+}

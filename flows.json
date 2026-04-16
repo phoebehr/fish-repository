@@ -1,0 +1,433 @@
+[
+    {
+        "id": "0b4e7370561c1f13",
+        "type": "tab",
+        "label": "Tilapia Farm Realtime",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "124d5501858d5c80",
+        "type": "firebase-in",
+        "z": "0b4e7370561c1f13",
+        "name": "Watch Temp",
+        "constraints": {},
+        "database": "5e9341a4662a1f9a",
+        "inputs": 0,
+        "listenerType": "value",
+        "outputType": "auto",
+        "passThrough": false,
+        "path": "Environment/water_temp",
+        "pathType": "str",
+        "useConstraints": false,
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "a5adb982ff008e68",
+                "8c861994a1a0ab22"
+            ]
+        ]
+    },
+    {
+        "id": "8ce712e4e0fbeeb2",
+        "type": "firebase-in",
+        "z": "0b4e7370561c1f13",
+        "name": "Watch Water Level",
+        "constraints": {},
+        "database": "5e9341a4662a1f9a",
+        "inputs": 0,
+        "listenerType": "value",
+        "outputType": "auto",
+        "passThrough": false,
+        "path": "Environment/water_level",
+        "pathType": "str",
+        "useConstraints": false,
+        "x": 170,
+        "y": 300,
+        "wires": [
+            [
+                "f7304523297d45f6",
+                "65aeff34c674d229"
+            ]
+        ]
+    },
+    {
+        "id": "6cb71809c874da3c",
+        "type": "firebase-in",
+        "z": "0b4e7370561c1f13",
+        "name": "Watch History",
+        "constraints": {},
+        "database": "5e9341a4662a1f9a",
+        "inputs": 0,
+        "listenerType": "value",
+        "outputType": "json",
+        "passThrough": false,
+        "path": "Logs/feeding_history",
+        "pathType": "str",
+        "useConstraints": false,
+        "x": 150,
+        "y": 400,
+        "wires": [
+            [
+                "92398b5a47b63100"
+            ]
+        ]
+    },
+    {
+        "id": "b26db7df6be43ca8",
+        "type": "firebase-out",
+        "z": "0b4e7370561c1f13",
+        "name": "Set Manual Trigger",
+        "database": "5e9341a4662a1f9a",
+        "path": "config/manual_trigger",
+        "pathType": "str",
+        "priority": "1",
+        "queryType": "set",
+        "x": 820,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "c41718937903bb47",
+        "type": "firebase-out",
+        "z": "0b4e7370561c1f13",
+        "name": "Update Feed Amount",
+        "database": "5e9341a4662a1f9a",
+        "path": "config/feeding",
+        "pathType": "str",
+        "priority": "1",
+        "queryType": "update",
+        "x": 830,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "a5adb982ff008e68",
+        "type": "ui_gauge",
+        "z": "0b4e7370561c1f13",
+        "name": "",
+        "group": "0d5bbbb9a65a440e",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Water Temperature",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": "20",
+        "max": "40",
+        "colors": [
+            "#0056d6",
+            "#4f7a28",
+            "#ca3838"
+        ],
+        "seg1": "24",
+        "seg2": "32",
+        "x": 450,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "f7304523297d45f6",
+        "type": "ui_gauge",
+        "z": "0b4e7370561c1f13",
+        "name": "",
+        "group": "0d5bbbb9a65a440e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "wave",
+        "title": "Water Level",
+        "label": "cm",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ca3838",
+            "#e6e600",
+            "#00b500"
+        ],
+        "x": 450,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "75e9a174bc4f7dd9",
+        "type": "ui_button",
+        "z": "0b4e7370561c1f13",
+        "name": "",
+        "group": "c37d76d79dc61ce7",
+        "label": "Feed Fish Now!",
+        "tooltip": "Manual Override",
+        "color": "",
+        "bgcolor": "",
+        "payload": "1",
+        "payloadType": "num",
+        "topic": "topic",
+        "x": 450,
+        "y": 500,
+        "wires": [
+            [
+                "b26db7df6be43ca8"
+            ]
+        ]
+    },
+    {
+        "id": "d87ad67804ce45e1",
+        "type": "ui_slider",
+        "z": "0b4e7370561c1f13",
+        "name": "Feed Amount (Grams)",
+        "label": "Feed Amount",
+        "tooltip": "",
+        "group": "c37d76d79dc61ce7",
+        "min": 5,
+        "max": 100,
+        "step": 5,
+        "x": 170,
+        "y": 600,
+        "wires": [
+            [
+                "60f6620b6804b2d3"
+            ]
+        ]
+    },
+    {
+        "id": "60f6620b6804b2d3",
+        "type": "function",
+        "z": "0b4e7370561c1f13",
+        "name": "Prepare Patch",
+        "func": "msg.payload = { \"current_setting\": msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "x": 450,
+        "y": 600,
+        "wires": [
+            [
+                "c41718937903bb47"
+            ]
+        ]
+    },
+    {
+        "id": "92398b5a47b63100",
+        "type": "function",
+        "z": "0b4e7370561c1f13",
+        "name": "Map Object to Table Array",
+        "func": "const logs = msg.payload;\nconst tableArray = [];\n\n// This loop converts the Firebase Object into a List\nfor (let id in logs) {\n    tableArray.push({\n        \"time\": logs[id].time,           // Must be lowercase 't'\n        \"feed_level\": logs[id].feed_level, // Matches your Firebase field\n        \"status\": logs[id].status         // Matches your Firebase field\n    });\n}\n\n// Reverses it so the newest feeding is at the top\nmsg.payload = tableArray.reverse();\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 400,
+        "wires": [
+            [
+                "d713bae638d624fa"
+            ]
+        ]
+    },
+    {
+        "id": "d713bae638d624fa",
+        "type": "ui_table",
+        "z": "0b4e7370561c1f13",
+        "group": "c37d76d79dc61ce7",
+        "name": "Feeding History",
+        "order": 7,
+        "width": 12,
+        "height": 6,
+        "columns": [
+            {
+                "field": "time",
+                "title": "Time",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "feed_level",
+                "title": "Grams",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "status",
+                "title": "Status",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 750,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "8c861994a1a0ab22",
+        "type": "switch",
+        "z": "0b4e7370561c1f13",
+        "name": "water_temp > 32",
+        "property": "payload",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "32",
+                "vt": "num"
+            }
+        ],
+        "outputs": 1,
+        "x": 450,
+        "y": 240,
+        "wires": [
+            [
+                "c26a786e4a547e96"
+            ]
+        ]
+    },
+    {
+        "id": "c26a786e4a547e96",
+        "type": "function",
+        "z": "0b4e7370561c1f13",
+        "name": "Alert Text",
+        "func": "msg.payload = \"Water temperature is too high: \" + msg.payload + \"°C!\";\nreturn msg;",
+        "outputs": 1,
+        "x": 650,
+        "y": 240,
+        "wires": [
+            [
+                "9876644f485a53a7"
+            ]
+        ]
+    },
+    {
+        "id": "9876644f485a53a7",
+        "type": "ui_toast",
+        "z": "0b4e7370561c1f13",
+        "position": "top right",
+        "displayTime": "10",
+        "outputs": 0,
+        "topic": "CRITICAL ALERT",
+        "name": "Water Too Hot!",
+        "x": 850,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "65aeff34c674d229",
+        "type": "switch",
+        "z": "0b4e7370561c1f13",
+        "name": "water_level < 20?",
+        "property": "payload",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "20",
+                "vt": "num"
+            }
+        ],
+        "outputs": 1,
+        "x": 450,
+        "y": 340,
+        "wires": [
+            [
+                "f0e5bea51efba2e3"
+            ]
+        ]
+    },
+    {
+        "id": "f0e5bea51efba2e3",
+        "type": "function",
+        "z": "0b4e7370561c1f13",
+        "name": "Alert Text",
+        "func": "msg.payload = \"EMERGENCY: Water level is too low! Current: \" + msg.payload + \"cm\";\nreturn msg;",
+        "outputs": 1,
+        "x": 650,
+        "y": 340,
+        "wires": [
+            [
+                "9774e718b4ca51d6"
+            ]
+        ]
+    },
+    {
+        "id": "9774e718b4ca51d6",
+        "type": "ui_toast",
+        "z": "0b4e7370561c1f13",
+        "position": "top right",
+        "displayTime": "10",
+        "outputs": 0,
+        "topic": "Warning: Low Water Levels",
+        "name": "Water Too Low!",
+        "x": 860,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "5e9341a4662a1f9a",
+        "type": "firebase-config",
+        "name": "Tilapia Farm Database",
+        "authType": "privateKey",
+        "claims": {},
+        "createUser": false,
+        "status": {
+            "firestore": false,
+            "storage": false
+        },
+        "useClaims": false
+    },
+    {
+        "id": "0d5bbbb9a65a440e",
+        "type": "ui_group",
+        "name": "Water Monitoring",
+        "tab": "5045e0a18d5cabf2",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c37d76d79dc61ce7",
+        "type": "ui_group",
+        "name": "Feeding Controls",
+        "tab": "5045e0a18d5cabf2",
+        "order": 2,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5045e0a18d5cabf2",
+        "type": "ui_tab",
+        "name": "Tilapia Farm",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "af53ef399384af4d",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@gogovega/node-red-contrib-firebase-realtime-database": "0.8.2",
+            "node-red-dashboard": "3.6.6",
+            "node-red-node-ui-table": "0.4.5",
+            "@gogovega/firebase-config-node": "0.3.3"
+        }
+    }
+]
