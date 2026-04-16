@@ -7,7 +7,7 @@
   "dependencies": {
     "node-red": "latest",
     "node-red-dashboard": "latest",
-    "node-red-contrib-firebase-admin-config": "latest",
-    "node-red-contrib-firebase-realtime-database": "latest"
+    "node-red-node-ui-table": "latest",
+    "@gogovega/node-red-contrib-firebase-realtime-database": "latest"
   }
 }
